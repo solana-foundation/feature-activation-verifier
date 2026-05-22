@@ -33,13 +33,43 @@ just run --output yaml --output-file results.yaml
 | Flag            | Default                    | Description                                                           |
 | --------------- | -------------------------- | --------------------------------------------------------------------- |
 | `--network`     | `localnet`                 | Target network: `localnet`, `testnet`, `mainnet`, or a custom RPC URL |
-| `--filter`      |                            | Filter tests by name or SIMD number                                   |
+| `--filter`      |                            | Filter tests. Matches against (narrow-to-broad): SIMD number (`153` or `0153`), feature-gate pubkey (full or substring), test id, or description substring (case-insensitive). |
 | `--keypair`     | `~/.config/solana/id.json` | Path to keypair file (required for testnet/mainnet)                   |
 | `--manifest`    | `manifest.yaml`            | Path to the manifest YAML file                                        |
 | `--output`      | `text`                     | Output format: `text`, `json`, or `yaml`                              |
 | `--output-file` |                            | Write json/yaml output to a file instead of stdout                    |
+| `--run-pending` | `false`                    | Run e2e tests even when requirements are unmet (still reported as `PENDING`) |
 
-## Adding a new SIMD test
+## Manifest schema
+
+The manifest is **feature-centric**: the top-level `features:` map is keyed by
+the base58 feature-gate pubkey. SIMD identity (`simd_number`, `simd_url`) is
+optional metadata on a feature — features that ship without (or before) a SIMD
+proposal are first-class.
+
+```yaml
+features:
+  <base58_feature_gate_pubkey>:
+    description: "..."             # required
+    simd_number: 153               # optional
+    simd_url: "..."                # optional
+    activation:                    # required (children all optional)
+      devnet:  { epoch: 801 }
+      testnet: { epoch: 714 }
+      mainnet: { epoch: 731 }
+    depends_on:                    # optional, list of feature-gate pubkeys
+      - <pubkey>
+    deprecated_by: <pubkey>        # optional, feature-gate pubkey
+    test:                          # optional
+      id: "simd_XXXX"             # required when `test:` is present;
+                                   # matches `tests::all_simd_tests()` key
+      location: "crates/tests/src/simd_XXXX.rs"
+      devnet:  { address: <pk>, authority: <pk> }
+      testnet: { address: <pk>, authority: <pk> }
+      mainnet: { address: <pk>, authority: <pk> }
+```
+
+## Adding a test for a SIMD-tagged feature
 
 1. **Create the on-chain program** under `programs/simd_XXXX/` with its own `Cargo.toml` (`cdylib` crate type) and entrypoint logic in `src/lib.rs`.
 
@@ -54,6 +84,8 @@ just run --output yaml --output-file results.yaml
 
    #[async_trait]
    impl SimdTest for SimdXXXXTest {
+       fn id(&self) -> &'static str { "simd_XXXX" }
+
        fn program(&self) -> Option<test_common::ProgramDeployment> {
            Some(test_common::ProgramDeployment {
                keypair_path: "programs/simd_XXXX/program-keypair.json".to_string(),
@@ -78,25 +110,55 @@ just run --output yaml --output-file results.yaml
    mod simd_XXXX;
    ```
 
-   And add one line in [`all_tests()`](crates/tests/src/lib.rs):
+   And include `simd_XXXX::register` in the registration loop inside
+   [`all_simd_tests()`](crates/tests/src/lib.rs). Each impl's `id()` becomes
+   the map key.
 
-   ```rust
-   map.insert("simd_XXXX".to_string(), simd_XXXX::register());
-   ```
-
-4. **Add a manifest entry** in `manifest.yaml` under the top-level `simds:` key:
+4. **Add a manifest entry** in `manifest.yaml` under the top-level `features:` key, **keyed by the feature-gate pubkey**:
 
    ```yaml
-   simds:
-     simd_XXXX:
+   features:
+     <feature-gate-pubkey>:
        description: Your feature description
-       number: XXXX
-       feature_activation:
-         address: <feature-gate-pubkey>
-       depends_on: []
+       simd_number: XXXX
+       simd_url: "https://github.com/.../proposals/0XXX-...md"
+       activation:
+         devnet:  { epoch: ... }
+         testnet: { epoch: ... }
+         mainnet: { epoch: ... }
        test:
+         id: "simd_XXXX"
          location: "crates/tests/src/simd_XXXX.rs"
    ```
+
+## Adding a test for a feature without a SIMD
+
+Some on-chain feature gates ship without (or before) an associated SIMD
+proposal. They are first-class in the manifest: omit `simd_number` /
+`simd_url`, pick a descriptive `test.id`, and the rest works identically.
+
+1. Implement `SimdTest` in `crates/tests/src/<your_feature>.rs`. The `id()`
+   method returns a stable string (e.g. `"feature_<short_name>"`); the rest
+   of the impl is the same as above.
+
+2. Register it in `crates/tests/src/lib.rs` exactly as for a SIMD-tagged
+   test — there is no separate registry.
+
+3. Add a manifest entry:
+
+   ```yaml
+   features:
+     <feature-gate-pubkey>:
+       description: "Plain-English description of the feature"
+       activation:
+         devnet:  { epoch: ... }
+       test:
+         id: "feature_<short_name>"
+         location: "crates/tests/src/<your_feature>.rs"
+   ```
+
+The CLI label for this entry will read `Feature <description> (<pubkey>)`
+instead of `SIMD-XXXX <description> (<pubkey>)`.
 
 ## Adding a new E2E test
 
@@ -163,9 +225,11 @@ Outcomes for an E2E check:
        url: "https://link/to/spec-or-tracking-issue"
        requires:
          feature_gates:
-           # Either a SIMD id from the `simds:` map, or a raw feature-gate pubkey.
-           - simd_XXXX
+           # Preferred: raw feature-gate pubkey (matches the `features:` map key).
            - <raw-feature-gate-pubkey>
+           # Also accepted: `simd_<N>` alias, resolved via the `simd_number`
+           # field in the `features:` map.
+           - simd_XXXX
          programs:
            - address: <program-pubkey>
              # Optional: pin to a specific deployed ELF.
@@ -187,63 +251,65 @@ Outcomes for an E2E check:
 
 ## Status
 
-| SIMD | Description                                   | Tested |
-| ---- | --------------------------------------------- | ------ |
-| 0033 | Timely Vote Credits                           | -      |
-| 0047 | Syscall and Sysvar for last restart slot      | -      |
-| 0049 | Syscall for remaining compute units           | -      |
-| 0075 | Precompile for verifying secp256r1 sig.       | -      |
-| 0079 | Allow Commission Decrease at Any Time         | -      |
-| 0083 | Relax Entry Constraints                       | -      |
-| 0084 | Disable rent fees collection                  | -      |
-| 0085 | Additional Fee-Collector Constraints          | -      |
-| 0089 | Programify Feature Gate Program               | -      |
-| 0093 | Disable Bpf loader V2 program deployment      | -      |
-| 0096 | Reward full priority fee to validator         | -      |
-| 0105 | Maintain Dynamic Set of Reserved Account Keys | -      |
-| 0118 | Partitioned Epoch Rewards Distribution        | -      |
-| 0127 | Get-Sysvar Syscall                            | -      |
-| 0128 | Migrate Address Lookup Table to Core BPF      | -      |
-| 0129 | Alt_BN128 Syscalls - Simplified Error Code    | -      |
-| 0133 | Syscall Get-Epoch-Stake                       | -      |
-| 0137 | EC Syscalls - Abort on Unsupported Curve/Ops  | -      |
-| 0138 | Deprecate legacy vote instructions            | -      |
-| 0140 | Migrate Config to Core BPF                    | -      |
-| 0148 | MoveStake and MoveLamports Instructions       | -      |
-| 0152 | Precompiles                                   | -      |
-| 0153 | ZK ElGamal Proof Program                      | yes    |
-| 0159 | Relax Precompile Failure Constraint           | -      |
-| 0162 | Remove Accounts `is_executable` Flag Checks   | -      |
-| 0163 | Lift the CPI caller restriction               | -      |
-| 0166 | SBPF Dynamic stack frames                     | -      |
-| 0170 | Reserve minimal CUs for builtins              | -      |
-| 0173 | SBPF instruction encoding improvements        | -      |
-| 0174 | SBPF arithmetics improvements                 | -      |
-| 0175 | Disable Partitioned Rent Updates              | -      |
-| 0178 | SBPF Static Syscalls                          | -      |
-| 0182 | Consume requested CUs for sBPF failures       | -      |
-| 0183 | Skip Rent Rewrites                            | -      |
-| 0185 | Vote Account v4                               | -      |
-| 0189 | SBPF stricter ELF headers                     | -      |
-| 0194 | Deprecate Rent Exemption Threshold            | yes    |
-| 0196 | Migrate Stake to Core BPF                     | -      |
-| 0207 | Raise Block Limits to 50M CUs                 | -      |
-| 0215 | Homomorphic Hashing of Account State          | -      |
-| 0219 | Stricter ABI and Runtime Constraints          | -      |
-| 0220 | Snapshots use Accounts Lattice Hash           | -      |
-| 0222 | Fix alt_bn128_pairing syscall length          | -      |
-| 0223 | Removes Accounts Delta Hash                   | -      |
-| 0242 | Static Nonce Account Only                     | -      |
-| 0256 | Increase Block Limits to 60M CUs              | -      |
-| 0266 | p-token: Efficient Token program              | yes    |
-| 0267 | Sets rent_epoch to a constant in the VM       | -      |
-| 0268 | Raise CPI Nesting Limit                       | -      |
-| 0321 | VM Register 2 Instruction Data Pointer        | -      |
-| 0334 | Fix alt_bn128_pairing syscall length check    | -      |
-| 0384 | Alpenglow migration                           | -      |
-| 0387 | BLS Pubkey management in vote account         | -      |
-| 0406 | Maximum instruction accounts                  | -      |
-| 0444 | Relax program data account check in migration | -      |
+Features without an associated SIMD use a `feature:<short-name>` prefix in the
+left column.
+
+| Feature / SIMD | Description                                                          | Tested |
+| -------------- | -------------------------------------------------------------------- | ------ |
+| 0033           | Timely Vote Credits                                                  | -      |
+| 0047           | Syscall and Sysvar for last restart slot                             | -      |
+| 0049           | Syscall for remaining compute units                                  | -      |
+| 0075           | Precompile for verifying secp256r1 sig.                              | -      |
+| 0079           | Allow Commission Decrease at Any Time                                | -      |
+| 0083           | Relax Entry Constraints                                              | -      |
+| 0084           | Disable rent fees collection                                         | -      |
+| 0085           | Additional Fee-Collector Constraints                                 | -      |
+| 0089           | Programify Feature Gate Program                                      | -      |
+| 0093           | Disable Bpf loader V2 program deployment                             | -      |
+| 0096           | Reward full priority fee to validator                                | -      |
+| 0105           | Maintain Dynamic Set of Reserved Account Keys                        | -      |
+| 0118           | Partitioned Epoch Rewards Distribution                               | -      |
+| 0127           | Get-Sysvar Syscall                                                   | -      |
+| 0128           | Migrate Address Lookup Table to Core BPF                             | -      |
+| 0129           | Alt_BN128 Syscalls - Simplified Error Code                           | -      |
+| 0133           | Syscall Get-Epoch-Stake                                              | -      |
+| 0137           | EC Syscalls - Abort on Unsupported Curve/Ops                         | -      |
+| 0138           | Deprecate legacy vote instructions                                   | -      |
+| 0140           | Migrate Config to Core BPF                                           | -      |
+| 0148           | MoveStake and MoveLamports Instructions                              | -      |
+| 0152           | Precompiles                                                          | -      |
+| 0153           | ZK ElGamal Proof Program                                             | yes    |
+| 0159           | Relax Precompile Failure Constraint                                  | -      |
+| 0162           | Remove Accounts `is_executable` Flag Checks                          | -      |
+| 0163           | Lift the CPI caller restriction                                      | -      |
+| 0166           | SBPF Dynamic stack frames                                            | -      |
+| 0170           | Reserve minimal CUs for builtins                                     | -      |
+| 0173 + 0174    | SBPF instruction encoding + arithmetics improvements (shared gate)   | -      |
+| 0175           | Disable Partitioned Rent Updates                                     | -      |
+| 0178           | SBPF Static Syscalls                                                 | -      |
+| 0182           | Consume requested CUs for sBPF failures                              | -      |
+| 0183           | Skip Rent Rewrites                                                   | -      |
+| 0185           | Vote Account v4                                                      | -      |
+| 0189           | SBPF stricter ELF headers                                            | -      |
+| 0194           | Deprecate Rent Exemption Threshold                                   | yes    |
+| 0196           | Migrate Stake to Core BPF                                            | -      |
+| 0207           | Raise Block Limits to 50M CUs                                        | -      |
+| 0215           | Homomorphic Hashing of Account State                                 | -      |
+| 0219           | Stricter ABI and Runtime Constraints                                 | -      |
+| 0220           | Snapshots use Accounts Lattice Hash                                  | -      |
+| 0222           | Fix alt_bn128_pairing syscall length                                 | -      |
+| 0223           | Removes Accounts Delta Hash                                          | -      |
+| 0242           | Static Nonce Account Only                                            | -      |
+| 0256           | Increase Block Limits to 60M CUs                                     | -      |
+| 0266           | p-token: Efficient Token program                                     | yes    |
+| 0267           | Sets rent_epoch to a constant in the VM                              | -      |
+| 0268           | Raise CPI Nesting Limit                                              | -      |
+| 0321           | VM Register 2 Instruction Data Pointer                               | -      |
+| 0334           | Fix alt_bn128_pairing syscall length check                           | -      |
+| 0384           | Alpenglow migration                                                  | -      |
+| 0387           | BLS Pubkey management in vote account                                | -      |
+| 0406           | Maximum instruction accounts                                         | -      |
+| 0444           | Relax program data account check in migration                        | -      |
 
 ### E2E Checks
 

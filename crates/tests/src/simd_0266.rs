@@ -381,6 +381,10 @@ fn measured_cus(measurements: &[CuMeasurement], name: &str) -> Option<u64> {
 
 #[async_trait]
 impl SimdTest for Simd0266Test {
+    fn id(&self) -> &'static str {
+        "simd_0266"
+    }
+
     fn program(&self) -> Option<test_common::ProgramDeployment> {
         Some(test_common::ProgramDeployment {
             keypair_path: "programs/simd_0266/program-keypair.json".to_string(),

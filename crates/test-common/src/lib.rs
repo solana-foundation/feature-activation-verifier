@@ -23,22 +23,23 @@ pub use manifest::{
 };
 pub use requirements::{RequirementChecker, UnmetRequirement};
 
-/// Collect the feature pubkey for `simd_id` **and** all its transitive dependencies.
-pub fn collect_feature_deps(manifest: &Manifest, simd_id: &str) -> Vec<Pubkey> {
+/// Collect the feature pubkey for `feature` **and** all its transitive dependencies.
+pub fn collect_feature_deps(manifest: &Manifest, feature: &Pubkey) -> Vec<Pubkey> {
     let mut pubkeys = Vec::new();
     let mut visited = HashSet::new();
-    collect_feature_deps_inner(manifest, simd_id, &mut pubkeys, &mut visited);
+    collect_feature_deps_inner(manifest, feature, &mut pubkeys, &mut visited);
     pubkeys
 }
 
-/// Collect **only** the transitive dependency features for `simd_id`,
-/// excluding `simd_id`'s own feature pubkey.
-pub fn collect_dependency_features(manifest: &Manifest, simd_id: &str) -> Vec<Pubkey> {
+/// Collect **only** the transitive dependency features for `feature`,
+/// excluding `feature`'s own pubkey.
+pub fn collect_dependency_features(manifest: &Manifest, feature: &Pubkey) -> Vec<Pubkey> {
     let mut pubkeys = Vec::new();
     let mut visited = HashSet::new();
-    // Mark simd_id as visited so its own pubkey is skipped, then walk deps.
-    visited.insert(simd_id.to_string());
-    if let Some(config) = manifest.get(simd_id) {
+    // Mark the requested feature as visited so its own pubkey is skipped,
+    // then walk deps.
+    visited.insert(*feature);
+    if let Some(config) = manifest.get(feature) {
         for dep in &config.depends_on {
             collect_feature_deps_inner(manifest, dep, &mut pubkeys, &mut visited);
         }
@@ -48,15 +49,15 @@ pub fn collect_dependency_features(manifest: &Manifest, simd_id: &str) -> Vec<Pu
 
 fn collect_feature_deps_inner(
     manifest: &Manifest,
-    simd_id: &str,
+    feature: &Pubkey,
     pubkeys: &mut Vec<Pubkey>,
-    visited: &mut HashSet<String>,
+    visited: &mut HashSet<Pubkey>,
 ) {
-    if !visited.insert(simd_id.to_string()) {
+    if !visited.insert(*feature) {
         return;
     }
-    if let Some(config) = manifest.get(simd_id) {
-        pubkeys.push(config.feature_activation.address);
+    if let Some(config) = manifest.get(feature) {
+        pubkeys.push(*feature);
         for dep in &config.depends_on {
             collect_feature_deps_inner(manifest, dep, pubkeys, visited);
         }
@@ -410,6 +411,11 @@ impl RpcContext {
 
 #[async_trait]
 pub trait SimdTest: Send + Sync {
+    /// Stable registry id for this test impl. Matches
+    /// `manifest.features.<addr>.test.id` and the key used by
+    /// `tests::all_simd_tests()`.
+    fn id(&self) -> &'static str;
+
     fn program(&self) -> Option<ProgramDeployment> {
         None
     }

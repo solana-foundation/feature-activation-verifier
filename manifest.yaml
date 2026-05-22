@@ -1,675 +1,637 @@
-simds:
-  simd_0033:
-      description: "Timely Vote Credits"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0033-timely-vote-credits.md"
-      number: 33
-      feature_activation:
-          address: tvcF6b1TRz353zKuhBjinZkKzjmihXmBAHJdjNYw1sQ
-          devnet:
-              epoch: 735
-          testnet:
-              epoch: 675
-          mainnet:
-              epoch: 703
-      depends_on: []
-  simd_0047:
-      description: "Syscall and Sysvar for last restart slot"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0047-syscall-and-sysvar-for-last-restart-slot.md"
-      number: 47
-      feature_activation:
-          address: HooKD5NC9QNxk25QuzCssB8ecrEzGt6eXEPBUxWp1LaR
-          devnet:
-              epoch: 726
-          testnet:
-              epoch: 670
-          mainnet:
-              epoch: 653
-      depends_on: []
-  simd_0049:
-      description: "Syscall for remaining compute units"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0049-syscall-get-remaining-compute-units.md"
-      number: 49
-      feature_activation:
-          address: 5TuppMutoyzhUSfuYdhgzD47F92GL1g89KpCZQKqedxP
-      depends_on: []
-  simd_0075:
-      description: "Precompile for verifying secp256r1 sig."
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0075-precompile-for-secp256r1-sigverify.md"
-      number: 75
-      feature_activation:
-          address: srremy31J5Y25FrAApwVb9kZcfXbusYMMsvTK9aWv5q
-          devnet:
-              epoch: 881
-          testnet:
-              epoch: 783
-          mainnet:
-              epoch: 800
-      depends_on: []
-  simd_0079:
-      description: "Allow Commission Decrease at Any Time"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0079-allow_commission_decrease_at_any_time.md"
-      number: 79
-      feature_activation:
-          address: decoMktMcnmiq6t3u7g5BfgcQu91nKZr6RvMYf9z1Jb
-          devnet:
-              epoch: 737
-          testnet:
-              epoch: 676
-          mainnet:
-              epoch: 704
-      depends_on: []
-  simd_0083:
-      description: "Relax Entry Constraints"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0083-relax-entry-constraints.md"
-      number: 83
-      feature_activation:
-          address: ENTRYnPAoT5Swwx73YDGzMp3XnNH1kxacyvLosRHza1i
-      depends_on: []
-  simd_0084:
-      description: "Disable rent fees collection"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0084-disable-rent-fees-collection.md"
-      number: 84
-      feature_activation:
-          address: CJzY83ggJHqPGDq8VisV3U91jDJLuEaALZooBrXtnnLU
-          devnet:
-              epoch: 825
-          testnet:
-              epoch: 746
-          mainnet:
-              epoch: 757
-      depends_on: []
-  simd_0085:
-      description: "Additional Fee-Collector Constraints"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0085-additional-fee-collector-constraints.md"
-      number: 85
-      feature_activation:
-          address: prpFrMtgNmzaNzkPJg9o753fVvbHKqNrNTm76foJ2wm
-          devnet:
-              epoch: 648
-          testnet:
-              epoch: 597
-          mainnet:
-              epoch: 599
-      depends_on: []
-  simd_0089:
-      description: "Programify Feature Gate Program"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0089-programify-feature-gate-program.md"
-      number: 89
-      feature_activation:
-          address: 4eohviozzEeivk1y9UbrnekbAFMDQyJz5JjA9Y6gyvky
-          devnet:
-              epoch: 816
-          testnet:
-              epoch: 746
-          mainnet:
-              epoch: 753
-      depends_on: []
-  simd_0093:
-      description: "Disable Bpf loader V2 program deployment"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0093-disable-bpf-loader-instructions.md"
-      number: 93
-      feature_activation:
-          address: 7WeS1vfPRgeeoXArLh7879YcB9mgE9ktjPDtajXeWfXn
-          devnet:
-              epoch: 660
-          testnet:
-              epoch: 609
-          mainnet:
-              epoch: 602
-      depends_on: []
-  simd_0096:
-      description: "Reward full priority fee to validator"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0096-reward-collected-priority-fee-in-entirety.md"
-      number: 96
-      feature_activation:
-          address: 3opE3EzAKnUftUDURkzMgwpNgimBAypW1mNDYH4x4Zg7
-          devnet:
-              epoch: 805
-          testnet:
-              epoch: 716
-          mainnet:
-              epoch: 742
-      depends_on: []
-  simd_0105:
-      description: "Maintain Dynamic Set of Reserved Account Keys"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0105-dynamic-reserved-accounts-set.md"
-      number: 105
-      feature_activation:
-          address: 8U4skmMVnF6k2kMvrWbQuRUT3qQSiTYpSjqmhmgfthZu
-          devnet:
-              epoch: 820
-          testnet:
-              epoch: 745
-          mainnet:
-              epoch: 744
-      depends_on: []
-  simd_0118:
-      description: "Partitioned Epoch Rewards Distribution"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0118-partitioned-epoch-reward-distribution.md"
-      number: 118
-      feature_activation:
-          address: PERzQrt5gBD1XEe2c9XdFWqwgHY3mr7cYWbm5V772V8
-          devnet:
-              epoch: 790
-          testnet:
-              epoch: 706
-          mainnet:
-              epoch: 707
-      depends_on: []
-  simd_0127:
-      description: "Get-Sysvar Syscall"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0127-get-sysvar-syscall.md"
-      number: 127
-      feature_activation:
-          address: CLCoTADvV64PSrnR6QXty6Fwrt9Xc6EdxSJE4wLRePjq
-          devnet:
-              epoch: 806
-          testnet:
-              epoch: 746
-          mainnet:
-              epoch: 746
-      depends_on: []
-  simd_0128:
-      description: "Migrate Address Lookup Table to Core BPF"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0128-migrate-address-lookup-table-to-core-bpf.md"
-      number: 128
-      feature_activation:
-          address: C97eKZygrkU4JxJsZdjgbUY7iQR7rKTr4NyDWo2E5pRm
-          devnet:
-              epoch: 849
-          testnet:
-              epoch: 756
-          mainnet:
-              epoch: 763
-      depends_on: []
-  simd_0129:
-      description: "Alt_BN128 Syscalls - Simplified Error Code"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0129-alt-bn128-simplified-error-code.md"
-      number: 129
-      feature_activation:
-          address: JDn5q3GBeqzvUa7z67BbmVHVdE3EbUAjvFep3weR3jxX
-          devnet:
-              epoch: 715
-          testnet:
-              epoch: 658
-          mainnet:
-              epoch: 636
-      depends_on: []
-  simd_0133:
-      description: "Syscall Get-Epoch-Stake"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0133-syscall-get-epoch-stake.md"
-      number: 133
-      feature_activation:
-          address: FKe75t4LXxGaQnVHdUKM6DSFifVVraGZ8LyNo7oPwy1Z
-          devnet:
-              epoch: 853
-          testnet:
-              epoch: 760
-          mainnet:
-              epoch: 767
-      depends_on: []
-  simd_0137:
-      description: "EC Syscalls - Abort on Unsupported Curve/Ops"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0137-curve25519-error.md"
-      number: 137
-      feature_activation:
-          address: FuS3FPfJDKSNot99ECLXtp3rueq36hMNStJkPJwWodLh
-          devnet:
-              epoch: 793
-          testnet:
-              epoch: 709
-          mainnet:
-              epoch: 722
-      depends_on: []
-  simd_0138:
-      description: "Deprecate legacy vote instructions"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0138-deprecate-legacy-vote-instructions.md"
-      number: 138
-      feature_activation:
-          address: 6Uf8S75PVh91MYgPQSHnjRAPQq6an5BDv9vomrCwDqLe
-          devnet:
-              epoch: 730
-          testnet:
-              epoch: 671
-          mainnet:
-              epoch: 655
-      depends_on: []
-  simd_0140:
-      description: "Migrate Config to Core BPF"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0140-migrate-config-to-core-bpf.md"
-      number: 140
-      feature_activation:
-          address: 2Fr57nzzkLYXW695UdDxDeR5fhnZWSttZeZYemrnpGFV
-          devnet:
-              epoch: 817
-          testnet:
-              epoch: 746
-          mainnet:
-              epoch: 754
-      depends_on: []
-  simd_0148:
-      description: "MoveStake and MoveLamports Instructions"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0148-stake-program-move-instructions.md"
-      number: 148
-      feature_activation:
-          address: 7bTK6Jis8Xpfrs8ZoUfiMDPazTcdPcTWheZFJTA5Z6X4
-          devnet:
-              epoch: 798
-          testnet:
-              epoch: 712
-          mainnet:
-              epoch: 727
-      depends_on: []
-  simd_0152:
-      description: "Precompiles"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0152-precompiles.md"
-      number: 152
-      feature_activation:
-          address: ed9tNscbWLYBooxWA7FE2B5KHWs8A6sxfY8EzezEcoo
-          devnet:
-              epoch: 792
-          testnet:
-              epoch: 708
-          mainnet:
-              epoch: 715
-      depends_on: []
-  simd_0153:
-      description: "ZK ElGamal Proof Program"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0153-elgamal-proof-program.md"
-      number: 153
-      feature_activation:
-          address: zkhiy5oLowR7HY4zogXjCjeMXyruLqBwSWH21qcFtnv
-          devnet:
-              epoch: 801
-          testnet:
-              epoch: 714
-          mainnet:
-              epoch: 731
-      depends_on: []
-      test:
-          location: "crates/tests/src/simd_0153.rs"
-          testnet:
-            address: Crgm3t63oP5jZnJhbFA9wbyTg6UYYmUfReYKScjcjwrQ
-            authority: HdMZgHc9Y3HUMnXuM2aGjMDzuccYuzdh1Hb8AXzWv2Pm
-          devnet:
-            address: Crgm3t63oP5jZnJhbFA9wbyTg6UYYmUfReYKScjcjwrQ
-            authority: HdMZgHc9Y3HUMnXuM2aGjMDzuccYuzdh1Hb8AXzWv2Pm
-  simd_0159:
-      description: "Relax Precompile Failure Constraint"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0159-relax-precompile-failure-constraint.md"
-      number: 159
-      feature_activation:
-          address: 9ypxGLzkMxi89eDerRKXWDXe44UY2z4hBig4mDhNq5Dp
-          devnet:
-              epoch: 847
-          testnet:
-              epoch: 755
-          mainnet:
-              epoch: 761
-      depends_on: []
-  simd_0162:
-      description: "Remove Accounts `is_executable` Flag Checks"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0162-remove-accounts-executable-flag-checks.md"
-      number: 162
-      feature_activation:
-          address: FXs1zh47QbNnhXcnB6YiAQoJ4sGB91tKF3UFHLcKT7PM
-          devnet:
-              epoch: 903
-          testnet:
-              epoch: 798
-          mainnet:
-              epoch: 812
-      depends_on: [simd_0093]
-  simd_0163:
-      description: "Lift the CPI caller restriction"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0163-lift-cpi-caller-restriction.md"
-      number: 163
-      feature_activation:
-          address: HcW8ZjBezYYgvcbxNJwqv1t484Y2556qJsfNDWvJGZRH
-      depends_on: []
-  simd_0166:
-      description: "SBPF Dynamic stack frames"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0166-dynamic-stack-frames.md"
-      number: 166
-      feature_activation:
-          address: JE86WkYvTrzW8HgNmrHY7dFYpCmSptUpKupbo2AdQ9cG
-          devnet:
-              epoch: 902
-          testnet:
-              epoch: 797
-          mainnet:
-              epoch: 809
-      depends_on: []
-  simd_0170:
-      description: "Reserve minimal CUs for builtins"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0170-builtin-instruction-cost-and-budget.md"
-      number: 170
-      feature_activation:
-          address: C9oAhLxDBm3ssWtJx1yBGzPY55r2rArHmN1pbQn6HogH
-          devnet:
-              epoch: 842
-          testnet:
-              epoch: 750
-          mainnet:
-              epoch: 759
-      depends_on: []
-  simd_0173:
-      description: "SBPF instruction encoding improvements"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0173-sbpf-instruction-encoding-improvements.md"
-      number: 173
-      feature_activation:
-          address: F6UVKh1ujTEFK3en2SyAL3cdVnqko1FVEXWhmdLRu6WP
-          devnet:
-              epoch: 919
-          testnet:
-              epoch: 815
-          mainnet:
-              epoch: 826
-      depends_on: [simd_0161]
-  simd_0174:
-      description: "SBPF arithmetics improvements"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0174-sbpf-arithmetics-improvements.md"
-      number: 174
-      feature_activation:
-          address: F6UVKh1ujTEFK3en2SyAL3cdVnqko1FVEXWhmdLRu6WP
-          devnet:
-              epoch: 919
-          testnet:
-              epoch: 815
-          mainnet:
-              epoch: 826
-      depends_on: [simd_0161]
-  simd_0175:
-      description: "Disable Partitioned Rent Updates"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0175-disable-partitioned-rent-collection.md"
-      number: 175
-      feature_activation:
-          address: 2B2SBNbUcr438LtGXNcJNBP2GBSxjx81F945SdSkUSfC
-          devnet:
-              epoch: 896
-          testnet:
-              epoch: 795
-          mainnet:
-              epoch: 809
-      depends_on: []
-  simd_0178:
-      description: "SBPF Static Syscalls"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0178-static-syscalls.md"
-      number: 178
-      feature_activation:
-          address: BUwGLeF3Lxyfv1J1wY8biFHBB2hrk2QhbNftQf3VV3cC
-      depends_on: []
-  simd_0182:
-      description: "Consume requested CUs for sBPF failures"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0182-conditional-cu-metering.md"
-      number: 182
-      feature_activation:
-          address: B7H2caeia4ZFcpE3QcgMqbiWiBtWrdBRBSJ1DY6Ktxbq
-          devnet:
-              epoch: 843
-          testnet:
-              epoch: 752
-          mainnet:
-              epoch: 760
-      depends_on: []
-  simd_0183:
-      description: "Skip Rent Rewrites"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0183-skip-rent-rewrites.md"
-      number: 183
-      feature_activation:
-          address: CGB2jM8pwZkeeiXQ66kBMyBR6Np61mggL7XUsmLjVcrw
-          devnet:
-              epoch: 824
-          testnet:
-              epoch: 746
-          mainnet:
-              epoch: 756
-      depends_on: []
-  simd_0185:
-      description: "Vote Account v4"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0185-vote-account-v4.md"
-      number: 185
-      feature_activation:
-          address: Gx4XFcrVMt4HUvPzTpTSVkdDVgcDSjKhDN1RqRS6KDuZ
-          devnet:
-              epoch: 1034
-          testnet:
-              epoch: 911
-      depends_on: []
-  simd_0189:
-      description: "SBPF stricter ELF headers"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0189-sbpf-stricter-elf-headers.md"
-      number: 189
-      feature_activation:
-          address: GJav1vwg2etvSWraPT96QvYuQJswJTJwtcyARrvkhuV9
-      depends_on: [simd_0178]
-  simd_0194:
-      description: "Deprecate Rent Exemption Threshold"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0194-deprecate-rent-exemption-threshold.md"
-      number: 194
-      feature_activation:
-          address: rent6iVy6PDoViPBeJ6k5EJQrkj62h7DPyLbWGHwjrC
-          devnet:
-              epoch: 1024
-          testnet:
-              epoch: 908
-      depends_on: []
-      test:
-          location: "crates/tests/src/simd_0194.rs"
-          testnet:
-              address: GQfx3D8zDArQVtaRXqiJiSVe8mG2dKNGeiKBWr9YKPS5
-              authority: HdMZgHc9Y3HUMnXuM2aGjMDzuccYuzdh1Hb8AXzWv2Pm
-          devnet:
-              address: GQfx3D8zDArQVtaRXqiJiSVe8mG2dKNGeiKBWr9YKPS5
-              authority: HdMZgHc9Y3HUMnXuM2aGjMDzuccYuzdh1Hb8AXzWv2Pm
-  simd_0196:
-      description: "Migrate Stake to Core BPF"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0196-migrate-stake-to-core-bpf.md"
-      number: 196
-      feature_activation:
-          address: 6M4oQ6eXneVhtLoiAr4yRYQY43eVLjrKbiDZDJc892yk
-          devnet:
-              epoch: 918
-          testnet:
-              epoch: 814
-          mainnet:
-              epoch: 824
-      depends_on: []
-  simd_0207:
-      description: "Raise Block Limits to 50M CUs"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0207-raise-block-limits-to-50M.md"
-      number: 207
-      feature_activation:
-          address: 5oMCU3JPaFLr8Zr4ct7yFA7jdk6Mw1RmB8K4u9ZbS42z
-          devnet:
-              epoch: 857
-          testnet:
-              epoch: 764
-          mainnet:
-              epoch: 771
-      depends_on: []
-  simd_0215:
-      description: "Homomorphic Hashing of Account State"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0215-accounts-lattice-hash.md"
-      number: 215
-      feature_activation:
-          address: LTHasHQX6661DaDD4S6A2TFi6QBuiwXKv66fB1obfHq
-          devnet:
-              epoch: 893
-          testnet:
-              epoch: 789
-          mainnet:
-              epoch: 805
-      depends_on: []
-  simd_0219:
-      description: "Stricter ABI and Runtime Constraints"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0219-stricter-abi-and-runtime-constraints.md"
-      number: 219
-      feature_activation:
-          address: C37iaPi6VE4CZDueU1vL8y6pGp5i8amAbEsF31xzz723
-      depends_on: []
-  simd_0220:
-      description: "Snapshots use Accounts Lattice Hash"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0220-snapshots-use-accounts-lattice-hash.md"
-      number: 220
-      feature_activation:
-          address: LTsNAP8h1voEVVToMNBNqoiNQex4aqfUrbFhRH3mSQ2
-          devnet:
-              epoch: 911
-          testnet:
-              epoch: 810
-          mainnet:
-              epoch: 819
-      depends_on: []
-  simd_0222:
-      description: "Fix alt-bn128 multiplication syscall length"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0222-fix-alt-bn128-multiplication-length-check.md"
-      number: 222
-      feature_activation:
-          address: bn2puAyxUx6JUabAxYdKdJ5QHbNNmKw8dCGuGCyRrFN
-          devnet:
-              epoch: 921
-          testnet:
-              epoch: 817
-          mainnet:
-              epoch: 837
-      depends_on: []
-  simd_0223:
-      description: "Removes Accounts Delta Hash"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0223-removes-accounts-delta-hash.md"
-      number: 223
-      feature_activation:
-          address: LTdLt9Ycbyoipz5fLysCi1NnDnASsZfmJLJXts5ZxZz
-          devnet:
-              epoch: 895
-          testnet:
-              epoch: 794
-          mainnet:
-              epoch: 808
-      depends_on: []
-  simd_0242:
-      description: "Static Nonce Account Only"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0242-static-nonce-account.md"
-      number: 242
-      feature_activation:
-          address: 7VVhpg5oAjAmnmz1zCcSHb2Z9ecZB2FQqpnEwReka9Zm
-          devnet:
-              epoch: 981
-          testnet:
-              epoch: 873
-          mainnet:
-              epoch: 891
-      depends_on: []
-  simd_0256:
-      description: "Increase Block Limits to 60M CUs"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0256-raise-block-limits-to-60M.md"
-      number: 256
-      feature_activation:
-          address: 6oMCUgfY6BzZ6jwB681J6ju5Bh6CjVXbd7NeWYqiXBSu
-          devnet:
-              epoch: 916
-          testnet:
-              epoch: 813
-          mainnet:
-              epoch: 823
-      depends_on: []
-  simd_0266:
-      description: "p-token: Efficient Token program"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0266-efficient-token-program.md"
-      number: 266
-      feature_activation:
-          address: ptokFjwyJtrwCa9Kgo9xoDS59V4QccBGEaRFnRPnSdP
-      depends_on: []
-      test:
-          location: "crates/tests/src/simd_0266.rs"
-          testnet:
-              address: 7GJmXtGkAWcKY8bZFmPvYc9XZqbfND9YoA9zwQrkCfxA
-              authority: HdMZgHc9Y3HUMnXuM2aGjMDzuccYuzdh1Hb8AXzWv2Pm
-          devnet:
-              address: 7GJmXtGkAWcKY8bZFmPvYc9XZqbfND9YoA9zwQrkCfxA
-              authority: HdMZgHc9Y3HUMnXuM2aGjMDzuccYuzdh1Hb8AXzWv2Pm
-  simd_0267:
-      description: "Sets rent_epoch to a constant in the VM"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0267-rent-epoch-in-vm-is-a-constant.md"
-      number: 267
-      feature_activation:
-          address: RENtePQcDLrAbxAsP3k8dwVcnNYQ466hi2uKvALjnXx
-          devnet:
-              epoch: 892
-          testnet:
-              epoch: 785
-          mainnet:
-              epoch: 802
-      depends_on: []
-  simd_0268:
-      description: "Raise CPI Nesting Limit"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0268-raise-cpi-nesting-limit.md"
-      number: 268
-      feature_activation:
-          address: 6TkHkRmP7JZy1fdM6fg5uXn76wChQBWGokHBJzrLB3mj
-      depends_on: [simd_0219]
-  simd_0321:
-      description: "VM Register 2 Instruction Data Pointer"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0321-vm-r2-instruction-data-pointer.md"
-      number: 321
-      feature_activation:
-          address: 5xXZc66h4UdB6Yq7FzdBxBiRAFMMScMLwHxk2QZDaNZL
-          devnet:
-              epoch: 1035
-          testnet:
-              epoch: 912
-      depends_on: []
-  simd_0334:
-      description: "Fix alt_bn128_pairing syscall length check"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0334-fix-alt-bn128-pairing-length-check.md"
-      number: 334
-      feature_activation:
-          address: bnYzodLwmybj7e1HAe98yZrdJTd7we69eMMLgCXqKZm
-          devnet:
-              epoch: 1016
-          testnet:
-              epoch: 907
-          mainnet:
-              epoch: 943
-      depends_on: []
-  simd_0384:
-      description: "Alpenglow migration"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0384-alpenglow-migration.md"
-      number: 384
-      feature_activation:
-          address: a1penGLz8Vm2QHYB3JPefBiU4BY3Z6JkW2k3Scw5GWP
-      depends_on: []
-  simd_0387:
-      description: "BLS Pubkey management in vote account"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0387-bls-pubkey-management-in-vote-account.md"
-      number: 387
-      feature_activation:
-          address: EGJLweNUVskAPEwpjvNB7JT6uUi6h4mFhowNYXVSrimG
-      depends_on: []
-  simd_0406:
-      description: "Maximum instruction accounts"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0406-maximum-instruction-accounts.md"
-      number: 406
-      feature_activation:
-          address: DqbnFPASg7tHmZ6qfpdrt2M6MWoSeiicWPXxPhxqFCQ
-      depends_on: []
-  simd_0444:
-      description: "Relax program data account check in migration"
-      url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0444-relaxing-program-data-account-requirements.md"
-      number: 444
-      feature_activation:
-          address: rexav5eNTUSNT1K2N7cfRjnthwhcP5BC25v2tA4rW4h
-          testnet:
-              epoch: 929
-      depends_on: []
+# Feature-centric manifest.
+#
+# Top-level `features:` is keyed by the feature-gate pubkey (base58). SIMD
+# metadata (`simd_number`, `simd_url`) is optional — features that ship
+# without (or before) a SIMD proposal can still be tested by omitting those
+# fields. See README.md for the full schema reference.
+#
+# `depends_on` and `deprecated_by` reference other feature-gate pubkeys.
+# `e2e_checks.<name>.requires.feature_gates` accepts either a raw pubkey or
+# a `simd_<N>` alias (resolved via `simd_number`).
+
+features:
+  tvcF6b1TRz353zKuhBjinZkKzjmihXmBAHJdjNYw1sQ:
+    description: "Timely Vote Credits"
+    simd_number: 33
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0033-timely-vote-credits.md"
+    activation:
+      devnet:
+        epoch: 735
+      testnet:
+        epoch: 675
+      mainnet:
+        epoch: 703
+
+  HooKD5NC9QNxk25QuzCssB8ecrEzGt6eXEPBUxWp1LaR:
+    description: "Syscall and Sysvar for last restart slot"
+    simd_number: 47
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0047-syscall-and-sysvar-for-last-restart-slot.md"
+    activation:
+      devnet:
+        epoch: 726
+      testnet:
+        epoch: 670
+      mainnet:
+        epoch: 653
+
+  5TuppMutoyzhUSfuYdhgzD47F92GL1g89KpCZQKqedxP:
+    description: "Syscall for remaining compute units"
+    simd_number: 49
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0049-syscall-get-remaining-compute-units.md"
+    activation: {}
+
+  srremy31J5Y25FrAApwVb9kZcfXbusYMMsvTK9aWv5q:
+    description: "Precompile for verifying secp256r1 sig."
+    simd_number: 75
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0075-precompile-for-secp256r1-sigverify.md"
+    activation:
+      devnet:
+        epoch: 881
+      testnet:
+        epoch: 783
+      mainnet:
+        epoch: 800
+
+  decoMktMcnmiq6t3u7g5BfgcQu91nKZr6RvMYf9z1Jb:
+    description: "Allow Commission Decrease at Any Time"
+    simd_number: 79
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0079-allow_commission_decrease_at_any_time.md"
+    activation:
+      devnet:
+        epoch: 737
+      testnet:
+        epoch: 676
+      mainnet:
+        epoch: 704
+
+  ENTRYnPAoT5Swwx73YDGzMp3XnNH1kxacyvLosRHza1i:
+    description: "Relax Entry Constraints"
+    simd_number: 83
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0083-relax-entry-constraints.md"
+    activation: {}
+
+  CJzY83ggJHqPGDq8VisV3U91jDJLuEaALZooBrXtnnLU:
+    description: "Disable rent fees collection"
+    simd_number: 84
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0084-disable-rent-fees-collection.md"
+    activation:
+      devnet:
+        epoch: 825
+      testnet:
+        epoch: 746
+      mainnet:
+        epoch: 757
+
+  prpFrMtgNmzaNzkPJg9o753fVvbHKqNrNTm76foJ2wm:
+    description: "Additional Fee-Collector Constraints"
+    simd_number: 85
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0085-additional-fee-collector-constraints.md"
+    activation:
+      devnet:
+        epoch: 648
+      testnet:
+        epoch: 597
+      mainnet:
+        epoch: 599
+
+  4eohviozzEeivk1y9UbrnekbAFMDQyJz5JjA9Y6gyvky:
+    description: "Programify Feature Gate Program"
+    simd_number: 89
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0089-programify-feature-gate-program.md"
+    activation:
+      devnet:
+        epoch: 816
+      testnet:
+        epoch: 746
+      mainnet:
+        epoch: 753
+
+  7WeS1vfPRgeeoXArLh7879YcB9mgE9ktjPDtajXeWfXn:
+    description: "Disable Bpf loader V2 program deployment"
+    simd_number: 93
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0093-disable-bpf-loader-instructions.md"
+    activation:
+      devnet:
+        epoch: 660
+      testnet:
+        epoch: 609
+      mainnet:
+        epoch: 602
+
+  3opE3EzAKnUftUDURkzMgwpNgimBAypW1mNDYH4x4Zg7:
+    description: "Reward full priority fee to validator"
+    simd_number: 96
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0096-reward-collected-priority-fee-in-entirety.md"
+    activation:
+      devnet:
+        epoch: 805
+      testnet:
+        epoch: 716
+      mainnet:
+        epoch: 742
+
+  8U4skmMVnF6k2kMvrWbQuRUT3qQSiTYpSjqmhmgfthZu:
+    description: "Maintain Dynamic Set of Reserved Account Keys"
+    simd_number: 105
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0105-dynamic-reserved-accounts-set.md"
+    activation:
+      devnet:
+        epoch: 820
+      testnet:
+        epoch: 745
+      mainnet:
+        epoch: 744
+
+  PERzQrt5gBD1XEe2c9XdFWqwgHY3mr7cYWbm5V772V8:
+    description: "Partitioned Epoch Rewards Distribution"
+    simd_number: 118
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0118-partitioned-epoch-reward-distribution.md"
+    activation:
+      devnet:
+        epoch: 790
+      testnet:
+        epoch: 706
+      mainnet:
+        epoch: 707
+
+  CLCoTADvV64PSrnR6QXty6Fwrt9Xc6EdxSJE4wLRePjq:
+    description: "Get-Sysvar Syscall"
+    simd_number: 127
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0127-get-sysvar-syscall.md"
+    activation:
+      devnet:
+        epoch: 806
+      testnet:
+        epoch: 746
+      mainnet:
+        epoch: 746
+
+  C97eKZygrkU4JxJsZdjgbUY7iQR7rKTr4NyDWo2E5pRm:
+    description: "Migrate Address Lookup Table to Core BPF"
+    simd_number: 128
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0128-migrate-address-lookup-table-to-core-bpf.md"
+    activation:
+      devnet:
+        epoch: 849
+      testnet:
+        epoch: 756
+      mainnet:
+        epoch: 763
+
+  JDn5q3GBeqzvUa7z67BbmVHVdE3EbUAjvFep3weR3jxX:
+    description: "Alt_BN128 Syscalls - Simplified Error Code"
+    simd_number: 129
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0129-alt-bn128-simplified-error-code.md"
+    activation:
+      devnet:
+        epoch: 715
+      testnet:
+        epoch: 658
+      mainnet:
+        epoch: 636
+
+  FKe75t4LXxGaQnVHdUKM6DSFifVVraGZ8LyNo7oPwy1Z:
+    description: "Syscall Get-Epoch-Stake"
+    simd_number: 133
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0133-syscall-get-epoch-stake.md"
+    activation:
+      devnet:
+        epoch: 853
+      testnet:
+        epoch: 760
+      mainnet:
+        epoch: 767
+
+  FuS3FPfJDKSNot99ECLXtp3rueq36hMNStJkPJwWodLh:
+    description: "EC Syscalls - Abort on Unsupported Curve/Ops"
+    simd_number: 137
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0137-curve25519-error.md"
+    activation:
+      devnet:
+        epoch: 793
+      testnet:
+        epoch: 709
+      mainnet:
+        epoch: 722
+
+  6Uf8S75PVh91MYgPQSHnjRAPQq6an5BDv9vomrCwDqLe:
+    description: "Deprecate legacy vote instructions"
+    simd_number: 138
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0138-deprecate-legacy-vote-instructions.md"
+    activation:
+      devnet:
+        epoch: 730
+      testnet:
+        epoch: 671
+      mainnet:
+        epoch: 655
+
+  2Fr57nzzkLYXW695UdDxDeR5fhnZWSttZeZYemrnpGFV:
+    description: "Migrate Config to Core BPF"
+    simd_number: 140
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0140-migrate-config-to-core-bpf.md"
+    activation:
+      devnet:
+        epoch: 817
+      testnet:
+        epoch: 746
+      mainnet:
+        epoch: 754
+
+  7bTK6Jis8Xpfrs8ZoUfiMDPazTcdPcTWheZFJTA5Z6X4:
+    description: "MoveStake and MoveLamports Instructions"
+    simd_number: 148
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0148-stake-program-move-instructions.md"
+    activation:
+      devnet:
+        epoch: 798
+      testnet:
+        epoch: 712
+      mainnet:
+        epoch: 727
+
+  ed9tNscbWLYBooxWA7FE2B5KHWs8A6sxfY8EzezEcoo:
+    description: "Precompiles"
+    simd_number: 152
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0152-precompiles.md"
+    activation:
+      devnet:
+        epoch: 792
+      testnet:
+        epoch: 708
+      mainnet:
+        epoch: 715
+
+  zkhiy5oLowR7HY4zogXjCjeMXyruLqBwSWH21qcFtnv:
+    description: "ZK ElGamal Proof Program"
+    simd_number: 153
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0153-elgamal-proof-program.md"
+    activation:
+      devnet:
+        epoch: 801
+      testnet:
+        epoch: 714
+      mainnet:
+        epoch: 731
+    test:
+      id: "simd_0153"
+      location: "crates/tests/src/simd_0153.rs"
+      testnet:
+        address: Crgm3t63oP5jZnJhbFA9wbyTg6UYYmUfReYKScjcjwrQ
+        authority: HdMZgHc9Y3HUMnXuM2aGjMDzuccYuzdh1Hb8AXzWv2Pm
+      devnet:
+        address: Crgm3t63oP5jZnJhbFA9wbyTg6UYYmUfReYKScjcjwrQ
+        authority: HdMZgHc9Y3HUMnXuM2aGjMDzuccYuzdh1Hb8AXzWv2Pm
+
+  9ypxGLzkMxi89eDerRKXWDXe44UY2z4hBig4mDhNq5Dp:
+    description: "Relax Precompile Failure Constraint"
+    simd_number: 159
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0159-relax-precompile-failure-constraint.md"
+    activation:
+      devnet:
+        epoch: 847
+      testnet:
+        epoch: 755
+      mainnet:
+        epoch: 761
+
+  FXs1zh47QbNnhXcnB6YiAQoJ4sGB91tKF3UFHLcKT7PM:
+    description: "Remove Accounts `is_executable` Flag Checks"
+    simd_number: 162
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0162-remove-accounts-executable-flag-checks.md"
+    activation:
+      devnet:
+        epoch: 903
+      testnet:
+        epoch: 798
+      mainnet:
+        epoch: 812
+    depends_on:
+      - 7WeS1vfPRgeeoXArLh7879YcB9mgE9ktjPDtajXeWfXn  # SIMD-0093
+
+  HcW8ZjBezYYgvcbxNJwqv1t484Y2556qJsfNDWvJGZRH:
+    description: "Lift the CPI caller restriction"
+    simd_number: 163
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0163-lift-cpi-caller-restriction.md"
+    activation: {}
+
+  JE86WkYvTrzW8HgNmrHY7dFYpCmSptUpKupbo2AdQ9cG:
+    description: "SBPF Dynamic stack frames"
+    simd_number: 166
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0166-dynamic-stack-frames.md"
+    activation:
+      devnet:
+        epoch: 902
+      testnet:
+        epoch: 797
+      mainnet:
+        epoch: 809
+
+  C9oAhLxDBm3ssWtJx1yBGzPY55r2rArHmN1pbQn6HogH:
+    description: "Reserve minimal CUs for builtins"
+    simd_number: 170
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0170-builtin-instruction-cost-and-budget.md"
+    activation:
+      devnet:
+        epoch: 842
+      testnet:
+        epoch: 750
+      mainnet:
+        epoch: 759
+
+  # SIMD-0173 ("SBPF instruction encoding improvements") and SIMD-0174 ("SBPF
+  # arithmetics improvements") share a single feature gate. We track this as
+  # one feature with `simd_number: 173` (the lower of the two); the
+  # description and `simd_url` reference both proposals. The original
+  # manifest also declared `depends_on: [simd_0161]`, but no feature gate
+  # for SIMD-0161 is tracked in this manifest, so the dependency was a
+  # silent no-op pre-refactor and is intentionally omitted here.
+  F6UVKh1ujTEFK3en2SyAL3cdVnqko1FVEXWhmdLRu6WP:
+    description: "SBPF instruction encoding improvements (SIMD-0173) + SBPF arithmetics improvements (SIMD-0174)"
+    simd_number: 173
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0173-sbpf-instruction-encoding-improvements.md"
+    activation:
+      devnet:
+        epoch: 919
+      testnet:
+        epoch: 815
+      mainnet:
+        epoch: 826
+
+  2B2SBNbUcr438LtGXNcJNBP2GBSxjx81F945SdSkUSfC:
+    description: "Disable Partitioned Rent Updates"
+    simd_number: 175
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0175-disable-partitioned-rent-collection.md"
+    activation:
+      devnet:
+        epoch: 896
+      testnet:
+        epoch: 795
+      mainnet:
+        epoch: 809
+
+  BUwGLeF3Lxyfv1J1wY8biFHBB2hrk2QhbNftQf3VV3cC:
+    description: "SBPF Static Syscalls"
+    simd_number: 178
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0178-static-syscalls.md"
+    activation: {}
+
+  B7H2caeia4ZFcpE3QcgMqbiWiBtWrdBRBSJ1DY6Ktxbq:
+    description: "Consume requested CUs for sBPF failures"
+    simd_number: 182
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0182-conditional-cu-metering.md"
+    activation:
+      devnet:
+        epoch: 843
+      testnet:
+        epoch: 752
+      mainnet:
+        epoch: 760
+
+  CGB2jM8pwZkeeiXQ66kBMyBR6Np61mggL7XUsmLjVcrw:
+    description: "Skip Rent Rewrites"
+    simd_number: 183
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0183-skip-rent-rewrites.md"
+    activation:
+      devnet:
+        epoch: 824
+      testnet:
+        epoch: 746
+      mainnet:
+        epoch: 756
+
+  Gx4XFcrVMt4HUvPzTpTSVkdDVgcDSjKhDN1RqRS6KDuZ:
+    description: "Vote Account v4"
+    simd_number: 185
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0185-vote-account-v4.md"
+    activation:
+      devnet:
+        epoch: 1034
+      testnet:
+        epoch: 911
+
+  GJav1vwg2etvSWraPT96QvYuQJswJTJwtcyARrvkhuV9:
+    description: "SBPF stricter ELF headers"
+    simd_number: 189
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0189-sbpf-stricter-elf-headers.md"
+    activation: {}
+    depends_on:
+      - BUwGLeF3Lxyfv1J1wY8biFHBB2hrk2QhbNftQf3VV3cC  # SIMD-0178
+
+  rent6iVy6PDoViPBeJ6k5EJQrkj62h7DPyLbWGHwjrC:
+    description: "Deprecate Rent Exemption Threshold"
+    simd_number: 194
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0194-deprecate-rent-exemption-threshold.md"
+    activation:
+      devnet:
+        epoch: 1024
+      testnet:
+        epoch: 908
+    test:
+      id: "simd_0194"
+      location: "crates/tests/src/simd_0194.rs"
+      testnet:
+        address: GQfx3D8zDArQVtaRXqiJiSVe8mG2dKNGeiKBWr9YKPS5
+        authority: HdMZgHc9Y3HUMnXuM2aGjMDzuccYuzdh1Hb8AXzWv2Pm
+      devnet:
+        address: GQfx3D8zDArQVtaRXqiJiSVe8mG2dKNGeiKBWr9YKPS5
+        authority: HdMZgHc9Y3HUMnXuM2aGjMDzuccYuzdh1Hb8AXzWv2Pm
+
+  6M4oQ6eXneVhtLoiAr4yRYQY43eVLjrKbiDZDJc892yk:
+    description: "Migrate Stake to Core BPF"
+    simd_number: 196
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0196-migrate-stake-to-core-bpf.md"
+    activation:
+      devnet:
+        epoch: 918
+      testnet:
+        epoch: 814
+      mainnet:
+        epoch: 824
+
+  5oMCU3JPaFLr8Zr4ct7yFA7jdk6Mw1RmB8K4u9ZbS42z:
+    description: "Raise Block Limits to 50M CUs"
+    simd_number: 207
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0207-raise-block-limits-to-50M.md"
+    activation:
+      devnet:
+        epoch: 857
+      testnet:
+        epoch: 764
+      mainnet:
+        epoch: 771
+
+  LTHasHQX6661DaDD4S6A2TFi6QBuiwXKv66fB1obfHq:
+    description: "Homomorphic Hashing of Account State"
+    simd_number: 215
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0215-accounts-lattice-hash.md"
+    activation:
+      devnet:
+        epoch: 893
+      testnet:
+        epoch: 789
+      mainnet:
+        epoch: 805
+
+  C37iaPi6VE4CZDueU1vL8y6pGp5i8amAbEsF31xzz723:
+    description: "Stricter ABI and Runtime Constraints"
+    simd_number: 219
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0219-stricter-abi-and-runtime-constraints.md"
+    activation: {}
+
+  LTsNAP8h1voEVVToMNBNqoiNQex4aqfUrbFhRH3mSQ2:
+    description: "Snapshots use Accounts Lattice Hash"
+    simd_number: 220
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0220-snapshots-use-accounts-lattice-hash.md"
+    activation:
+      devnet:
+        epoch: 911
+      testnet:
+        epoch: 810
+      mainnet:
+        epoch: 819
+
+  bn2puAyxUx6JUabAxYdKdJ5QHbNNmKw8dCGuGCyRrFN:
+    description: "Fix alt-bn128 multiplication syscall length"
+    simd_number: 222
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0222-fix-alt-bn128-multiplication-length-check.md"
+    activation:
+      devnet:
+        epoch: 921
+      testnet:
+        epoch: 817
+      mainnet:
+        epoch: 837
+
+  LTdLt9Ycbyoipz5fLysCi1NnDnASsZfmJLJXts5ZxZz:
+    description: "Removes Accounts Delta Hash"
+    simd_number: 223
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0223-removes-accounts-delta-hash.md"
+    activation:
+      devnet:
+        epoch: 895
+      testnet:
+        epoch: 794
+      mainnet:
+        epoch: 808
+
+  7VVhpg5oAjAmnmz1zCcSHb2Z9ecZB2FQqpnEwReka9Zm:
+    description: "Static Nonce Account Only"
+    simd_number: 242
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0242-static-nonce-account.md"
+    activation:
+      devnet:
+        epoch: 981
+      testnet:
+        epoch: 873
+      mainnet:
+        epoch: 891
+
+  6oMCUgfY6BzZ6jwB681J6ju5Bh6CjVXbd7NeWYqiXBSu:
+    description: "Increase Block Limits to 60M CUs"
+    simd_number: 256
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0256-raise-block-limits-to-60M.md"
+    activation:
+      devnet:
+        epoch: 916
+      testnet:
+        epoch: 813
+      mainnet:
+        epoch: 823
+
+  ptokFjwyJtrwCa9Kgo9xoDS59V4QccBGEaRFnRPnSdP:
+    description: "p-token: Efficient Token program"
+    simd_number: 266
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0266-efficient-token-program.md"
+    activation: {}
+    test:
+      id: "simd_0266"
+      location: "crates/tests/src/simd_0266.rs"
+      testnet:
+        address: 7GJmXtGkAWcKY8bZFmPvYc9XZqbfND9YoA9zwQrkCfxA
+        authority: HdMZgHc9Y3HUMnXuM2aGjMDzuccYuzdh1Hb8AXzWv2Pm
+      devnet:
+        address: 7GJmXtGkAWcKY8bZFmPvYc9XZqbfND9YoA9zwQrkCfxA
+        authority: HdMZgHc9Y3HUMnXuM2aGjMDzuccYuzdh1Hb8AXzWv2Pm
+
+  RENtePQcDLrAbxAsP3k8dwVcnNYQ466hi2uKvALjnXx:
+    description: "Sets rent_epoch to a constant in the VM"
+    simd_number: 267
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0267-rent-epoch-in-vm-is-a-constant.md"
+    activation:
+      devnet:
+        epoch: 892
+      testnet:
+        epoch: 785
+      mainnet:
+        epoch: 802
+
+  6TkHkRmP7JZy1fdM6fg5uXn76wChQBWGokHBJzrLB3mj:
+    description: "Raise CPI Nesting Limit"
+    simd_number: 268
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0268-raise-cpi-nesting-limit.md"
+    activation: {}
+    depends_on:
+      - C37iaPi6VE4CZDueU1vL8y6pGp5i8amAbEsF31xzz723  # SIMD-0219
+
+  5xXZc66h4UdB6Yq7FzdBxBiRAFMMScMLwHxk2QZDaNZL:
+    description: "VM Register 2 Instruction Data Pointer"
+    simd_number: 321
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0321-vm-r2-instruction-data-pointer.md"
+    activation:
+      devnet:
+        epoch: 1035
+      testnet:
+        epoch: 912
+
+  bnYzodLwmybj7e1HAe98yZrdJTd7we69eMMLgCXqKZm:
+    description: "Fix alt_bn128_pairing syscall length check"
+    simd_number: 334
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0334-fix-alt-bn128-pairing-length-check.md"
+    activation:
+      devnet:
+        epoch: 1016
+      testnet:
+        epoch: 907
+      mainnet:
+        epoch: 943
+
+  a1penGLz8Vm2QHYB3JPefBiU4BY3Z6JkW2k3Scw5GWP:
+    description: "Alpenglow migration"
+    simd_number: 384
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0384-alpenglow-migration.md"
+    activation: {}
+
+  EGJLweNUVskAPEwpjvNB7JT6uUi6h4mFhowNYXVSrimG:
+    description: "BLS Pubkey management in vote account"
+    simd_number: 387
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0387-bls-pubkey-management-in-vote-account.md"
+    activation: {}
+
+  DqbnFPASg7tHmZ6qfpdrt2M6MWoSeiicWPXxPhxqFCQ:
+    description: "Maximum instruction accounts"
+    simd_number: 406
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0406-maximum-instruction-accounts.md"
+    activation: {}
+
+  rexav5eNTUSNT1K2N7cfRjnthwhcP5BC25v2tA4rW4h:
+    description: "Relax program data account check in migration"
+    simd_number: 444
+    simd_url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0444-relaxing-program-data-account-requirements.md"
+    activation:
+      testnet:
+        epoch: 929
 
 e2e_checks:
   confidential_transfers:
     description: "Confidential transfers via token-2022 + ZK ElGamal proof program"
     url: "https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0153-elgamal-proof-program.md"
     requires:
+      # Feature gates can be referenced as raw pubkeys (primary form) or as
+      # `simd_<N>` aliases (resolved via the `features:` map's
+      # `simd_number` field).
       feature_gates:
-        - simd_0153
+        - zkhiy5oLowR7HY4zogXjCjeMXyruLqBwSWH21qcFtnv  # SIMD-0153
       programs:
         - address: TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb
           description: "token-2022 with confidential transfers"

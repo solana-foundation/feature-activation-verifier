@@ -3,13 +3,14 @@ use clap::Parser;
 use log::{debug, info};
 use solana_client::{rpc_client::RpcClient, rpc_config::CommitmentConfig};
 use solana_keypair::Keypair;
+use solana_pubkey::Pubkey;
 use solana_signer::Signer;
 use std::path::Path;
 use std::sync::Arc;
 use test_common::{
     collect_dependency_features, collect_feature_deps, start_surfnet, start_surfnet_with_upstream,
-    ActivationContext, E2eContext, Manifest, RequirementChecker, RpcContext, TestOutcome,
-    TestReport, TestResult,
+    ActivationContext, E2eContext, FeatureConfig, Manifest, RequirementChecker, RpcContext,
+    TestOutcome, TestReport, TestResult,
 };
 
 use tests::{all_e2e_tests, all_simd_tests};
@@ -20,7 +21,9 @@ use tests::{all_e2e_tests, all_simd_tests};
     about = "Verify SIMD feature activations on Solana networks"
 )]
 struct Cli {
-    /// Filter tests by name or SIMD number
+    /// Filter tests. Matches against (in narrow-to-broad order): exact SIMD
+    /// number (`153` or `0153`), exact feature-gate pubkey, pubkey substring,
+    /// test id, or description substring (case-insensitive).
     #[arg(long)]
     filter: Option<String>,
 
@@ -128,6 +131,72 @@ fn airdrop(rpc_client: &RpcClient, payer: &Keypair) -> Result<()> {
     Ok(())
 }
 
+/// Match `filter` against a feature entry. Tested in narrow-to-broad order
+/// so that e.g. `--filter 153` doesn't also pick up an entry whose
+/// description happens to contain the digits "153".
+fn feature_matches_filter(address: &Pubkey, config: &FeatureConfig, filter: &str) -> bool {
+    // 1. Exact SIMD number (with or without leading zeros).
+    if let Some(n) = config.simd_number {
+        let n_str = n.to_string();
+        if n_str == filter || n_str == filter.trim_start_matches('0') {
+            return true;
+        }
+        if format!("{:04}", n) == filter {
+            return true;
+        }
+    }
+
+    let address_str = address.to_string();
+
+    // 2. Exact pubkey match.
+    if address_str == filter {
+        return true;
+    }
+
+    // 3. Pubkey substring match.
+    if address_str.contains(filter) {
+        return true;
+    }
+
+    // 4. Test id substring match.
+    if let Some(test) = &config.test {
+        if test.id.contains(filter) {
+            return true;
+        }
+    }
+
+    // 5. Description substring match (case-insensitive).
+    if config
+        .description
+        .to_lowercase()
+        .contains(&filter.to_lowercase())
+    {
+        return true;
+    }
+
+    // 6. Substring of SIMD-zero-padded form ("01" matches SIMD-0153).
+    if let Some(n) = config.simd_number {
+        if format!("{:04}", n).contains(filter) {
+            return true;
+        }
+    }
+
+    false
+}
+
+/// Build the human-facing label for a feature test result.
+fn feature_label(address: &Pubkey, config: &FeatureConfig, pass_suffix: Option<&str>) -> String {
+    let base = if let Some(n) = config.simd_number {
+        format!("SIMD-{:04} {} ({})", n, config.description, address)
+    } else {
+        format!("Feature {} ({})", config.description, address)
+    };
+    match pass_suffix {
+        Some(suffix) => format!("{base} ({suffix})"),
+        None => base,
+    }
+}
+
 #[tokio::main]
 async fn main() -> Result<()> {
     env_logger::init();
@@ -137,18 +206,24 @@ async fn main() -> Result<()> {
     let manifest = Manifest::load(Path::new(&cli.manifest))?;
     let tests = all_simd_tests();
 
-    // Collect manifest entries, filtered and sorted by SIMD number
-    let mut entries: Vec<_> = manifest
-        .iter_simds()
-        .filter(|(id, config)| {
+    // Collect manifest entries, filtered then sorted deterministically by
+    // (simd_number-with-None-last, base58 pubkey).
+    let mut entries: Vec<(Pubkey, &FeatureConfig)> = manifest
+        .iter_features()
+        .filter(|(addr, config)| {
             if let Some(ref f) = cli.filter {
-                id.contains(f) || config.number.to_string().contains(f)
+                feature_matches_filter(addr, config, f)
             } else {
                 true
             }
         })
+        .map(|(addr, config)| (*addr, config))
         .collect();
-    entries.sort_by_key(|(_, config)| config.number);
+    entries.sort_by(|(a_addr, a), (b_addr, b)| {
+        let a_key = (a.simd_number.is_none(), a.simd_number, a_addr.to_string());
+        let b_key = (b.simd_number.is_none(), b.simd_number, b_addr.to_string());
+        a_key.cmp(&b_key)
+    });
 
     // Collect e2e checks, filtered
     let mut e2e_entries: Vec<_> = manifest
@@ -169,7 +244,7 @@ async fn main() -> Result<()> {
     }
 
     info!(
-        "Running {} SIMD test(s) and {} e2e check(s) on {}...",
+        "Running {} feature test(s) and {} e2e check(s) on {}...",
         entries.len(),
         e2e_entries.len(),
         cli.network
@@ -189,20 +264,28 @@ async fn main() -> Result<()> {
 
     let mut results: Vec<TestResult> = Vec::new();
 
-    for (id, config) in &entries {
-        let Some(test) = tests.get(id.as_str()) else {
+    for (address, config) in &entries {
+        let test_id = config.test.as_ref().map(|t| t.id.as_str());
+        let Some(test) = test_id.and_then(|id| tests.get(id)) else {
             let outcome = TestOutcome::Skip {
-                reason: "No test implementation found".to_string(),
+                reason: match test_id {
+                    Some(id) => format!("No test implementation registered for id '{id}'"),
+                    None => "No test implementation found".to_string(),
+                },
             };
             results.push(TestResult::new(
-                format!("SIMD-{:04} {}", config.number, id),
+                feature_label(address, config, None),
                 &outcome,
                 None,
             ));
             continue;
         };
 
-        info!("Starting test {}", id);
+        info!(
+            "Starting test for feature {} (test id {})",
+            address,
+            test.id()
+        );
 
         // For localnet, run two passes: deactivated then activated.
         // For other networks, run once with the live feature state.
@@ -212,37 +295,37 @@ async fn main() -> Result<()> {
                     "deactivated",
                     false,
                     Some((
-                        collect_dependency_features(&manifest, id),
-                        vec![config.feature_activation.address],
+                        collect_dependency_features(&manifest, address),
+                        vec![*address],
                     )),
                 ),
                 (
                     "activated",
                     true,
-                    Some((collect_feature_deps(&manifest, id), vec![])),
+                    Some((collect_feature_deps(&manifest, address), vec![])),
                 ),
             ]
         } else {
-            let activated = config.feature_activation.is_activated_on(&cli.network);
+            let activated = config.activation.is_activated_on(&cli.network);
             vec![("live", activated, None)]
         };
 
         for (pass_name, expect_activated, features) in passes {
             let label = if cli.network == "localnet" {
-                format!("SIMD-{:04} {} ({})", config.number, id, pass_name)
+                feature_label(address, config, Some(pass_name))
             } else {
-                format!("SIMD-{:04} {}", config.number, id)
+                feature_label(address, config, None)
             };
 
             let (surfnet_handle, rpc_client) =
                 if let Some((activated_features, deactivated_features)) = features {
                     debug!(
                         "Activated feature gates for {} ({}): {:?}",
-                        id, pass_name, activated_features
+                        address, pass_name, activated_features
                     );
                     debug!(
                         "Deactivated feature gates for {} ({}): {:?}",
-                        id, pass_name, deactivated_features
+                        address, pass_name, deactivated_features
                     );
                     let handle = start_surfnet(activated_features, deactivated_features).await?;
                     debug!("Surfnet RPC url: {}", handle.rpc_url);
@@ -287,7 +370,7 @@ async fn main() -> Result<()> {
                 payer: payer.insecure_clone(),
                 network_name: cli.network.clone(),
                 program_id: resolved_program_id.expect("Could not resolve program id"),
-                feature_gate: config.feature_activation.address,
+                feature_gate: *address,
                 expect_activated: expect_activated,
             };
             if let Err(err_outcome) = test.deploy_or_skip_program(&ctx) {
@@ -539,4 +622,127 @@ async fn main() -> Result<()> {
     }
 
     Ok(())
+}
+
+#[cfg(test)]
+mod cli_tests {
+    use super::*;
+    use test_common::Manifest;
+
+    fn load_workspace_manifest() -> Manifest {
+        let workspace_root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .and_then(|p| p.parent())
+            .expect("workspace root");
+        Manifest::load(&workspace_root.join("manifest.yaml")).expect("manifest loads")
+    }
+
+    /// Helper: collect features that the CLI would pick for a given filter,
+    /// mirroring the filter+sort logic in `main`.
+    fn select<'a>(manifest: &'a Manifest, filter: &str) -> Vec<(Pubkey, &'a FeatureConfig)> {
+        let mut entries: Vec<(Pubkey, &FeatureConfig)> = manifest
+            .iter_features()
+            .filter(|(addr, config)| feature_matches_filter(addr, config, filter))
+            .map(|(addr, config)| (*addr, config))
+            .collect();
+        entries.sort_by(|(a_addr, a), (b_addr, b)| {
+            let a_key = (a.simd_number.is_none(), a.simd_number, a_addr.to_string());
+            let b_key = (b.simd_number.is_none(), b.simd_number, b_addr.to_string());
+            a_key.cmp(&b_key)
+        });
+        entries
+    }
+
+    #[test]
+    fn filter_by_zero_padded_simd_number_selects_exactly_one() {
+        let m = load_workspace_manifest();
+        let hits = select(&m, "0153");
+        assert_eq!(hits.len(), 1, "expected exactly one entry for `0153`");
+        let (_, cfg) = hits[0];
+        assert_eq!(cfg.simd_number, Some(153));
+    }
+
+    #[test]
+    fn filter_by_bare_simd_number_selects_exactly_one() {
+        let m = load_workspace_manifest();
+        let hits = select(&m, "153");
+        // `153` is an exact SIMD-number match; description-substring fallback
+        // does not run because the narrow match wins first.
+        let zk_hits: Vec<_> = hits.iter().filter(|(_, c)| c.simd_number == Some(153)).collect();
+        assert_eq!(zk_hits.len(), 1);
+    }
+
+    #[test]
+    fn filter_by_full_pubkey_selects_exact_feature() {
+        let m = load_workspace_manifest();
+        let zk_pk = Pubkey::from_str_const("zkhiy5oLowR7HY4zogXjCjeMXyruLqBwSWH21qcFtnv");
+        let hits = select(&m, &zk_pk.to_string());
+        assert_eq!(hits.len(), 1);
+        assert_eq!(hits[0].0, zk_pk);
+    }
+
+    #[test]
+    fn filter_by_pubkey_substring_selects_matching_feature() {
+        let m = load_workspace_manifest();
+        let hits = select(&m, "zkhiy5o");
+        assert_eq!(hits.len(), 1);
+        assert_eq!(hits[0].1.simd_number, Some(153));
+    }
+
+    #[test]
+    fn filter_by_test_id_selects_feature_with_that_test() {
+        let m = load_workspace_manifest();
+        let hits = select(&m, "simd_0194");
+        // `simd_0194` matches via test id; the SIMD-194 entry uses that test
+        // id, so exactly one hit is expected.
+        let with_test_id: Vec<_> = hits
+            .iter()
+            .filter(|(_, c)| {
+                c.test
+                    .as_ref()
+                    .map(|t| t.id == "simd_0194")
+                    .unwrap_or(false)
+            })
+            .collect();
+        assert_eq!(with_test_id.len(), 1);
+    }
+
+    #[test]
+    fn filter_by_description_substring_matches_case_insensitively() {
+        let m = load_workspace_manifest();
+        let hits = select(&m, "elgamal");
+        assert!(hits.iter().any(|(_, c)| c.simd_number == Some(153)));
+    }
+
+    #[test]
+    fn filter_with_no_match_returns_empty() {
+        let m = load_workspace_manifest();
+        let hits = select(&m, "definitely-not-a-real-thing-zzz");
+        assert!(hits.is_empty());
+    }
+
+    #[test]
+    fn label_branches_on_simd_number_presence() {
+        let zk_pk = Pubkey::from_str_const("zkhiy5oLowR7HY4zogXjCjeMXyruLqBwSWH21qcFtnv");
+        let with_simd = FeatureConfig {
+            description: "ZK ElGamal".to_string(),
+            simd_number: Some(153),
+            simd_url: None,
+            activation: test_common::manifest::ActivationConfig::default(),
+            depends_on: vec![],
+            deprecated_by: None,
+            test: None,
+        };
+        let without_simd = FeatureConfig {
+            description: "Mystery feature".to_string(),
+            simd_number: None,
+            simd_url: None,
+            activation: test_common::manifest::ActivationConfig::default(),
+            depends_on: vec![],
+            deprecated_by: None,
+            test: None,
+        };
+        assert!(feature_label(&zk_pk, &with_simd, None).starts_with("SIMD-0153 "));
+        assert!(feature_label(&zk_pk, &without_simd, None).starts_with("Feature "));
+    }
 }

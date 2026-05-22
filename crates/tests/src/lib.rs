@@ -6,11 +6,19 @@ mod simd_0153;
 mod simd_0194;
 mod simd_0266;
 
+/// Construct the SIMD test registry. Each `register()` returns a boxed test
+/// impl whose `id()` is used as the map key so the manifest entry's
+/// `test.id` field maps deterministically to the right impl.
 pub fn all_simd_tests() -> HashMap<String, Box<dyn SimdTest>> {
-    let mut map = HashMap::new();
-    map.insert("simd_0153".to_string(), simd_0153::register());
-    map.insert("simd_0194".to_string(), simd_0194::register());
-    map.insert("simd_0266".to_string(), simd_0266::register());
+    let mut map: HashMap<String, Box<dyn SimdTest>> = HashMap::new();
+    for register in [
+        simd_0153::register,
+        simd_0194::register,
+        simd_0266::register,
+    ] {
+        let test = register();
+        map.insert(test.id().to_string(), test);
+    }
     map
 }
 
