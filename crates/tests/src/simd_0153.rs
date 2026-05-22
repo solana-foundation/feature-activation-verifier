@@ -21,7 +21,7 @@ fn zk_token_proof_program_id() -> Pubkey {
 impl SimdTest for Simd0153Test {
     fn program(&self) -> Option<test_common::ProgramDeployment> {
         Some(test_common::ProgramDeployment {
-            keypair_path: "programs/simd_0153/program-keypair.json".to_string(),
+            keypair_path: "target/deploy/simd_0153-keypair.json".to_string(),
             so_path: "target/deploy/simd_0153.so".to_string(),
         })
     }
