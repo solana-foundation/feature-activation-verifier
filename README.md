@@ -1,6 +1,6 @@
-# simd-checker
+# feature-activation-verifier
 
-Verify SIMD feature activations on Solana networks.
+Verify feature activations on Solana networks.
 
 ## Notice
 

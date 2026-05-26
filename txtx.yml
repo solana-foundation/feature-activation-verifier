@@ -1,6 +1,6 @@
 ---
-name: Simd Checker
-id: simd-checker
+name: Feature Activation Verifier
+id: feature-activation-verifier
 runbooks:
   - name: deployment
     description: Deploy programs
@@ -9,15 +9,14 @@ runbooks:
       location: runbooks/state
 environments:
   localnet:
-      network_id: localnet
-      rpc_api_url: http://localhost:8899
+    network_id: localnet
+    rpc_api_url: http://localhost:8899
   devnet:
-      network_id: devnet
-      rpc_api_url: https://api.devnet.solana.com
+    network_id: devnet
+    rpc_api_url: https://api.devnet.solana.com
   testnet:
-      network_id: testnet
-      rpc_api_url: https://api.testnet.solana.com
+    network_id: testnet
+    rpc_api_url: https://api.testnet.solana.com
   mainnet:
-      network_id: mainnet
-      rpc_api_url: https://api.mainnet-beta.solana.com
-
+    network_id: mainnet
+    rpc_api_url: https://api.mainnet-beta.solana.com

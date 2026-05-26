@@ -17,7 +17,7 @@ use tests::{all_e2e_tests, all_simd_tests};
 
 #[derive(Parser)]
 #[command(
-    name = "simd-checker",
+    name = "feature-activation-verifier",
     about = "Verify SIMD feature activations on Solana networks"
 )]
 struct Cli {
@@ -668,7 +668,10 @@ mod cli_tests {
         let hits = select(&m, "153");
         // `153` is an exact SIMD-number match; description-substring fallback
         // does not run because the narrow match wins first.
-        let zk_hits: Vec<_> = hits.iter().filter(|(_, c)| c.simd_number == Some(153)).collect();
+        let zk_hits: Vec<_> = hits
+            .iter()
+            .filter(|(_, c)| c.simd_number == Some(153))
+            .collect();
         assert_eq!(zk_hits.len(), 1);
     }
 

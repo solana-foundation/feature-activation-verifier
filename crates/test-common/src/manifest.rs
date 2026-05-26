@@ -34,7 +34,7 @@ impl Manifest {
                 anyhow::anyhow!(
                     "manifest feature key '{}' is not a valid base58 pubkey: {}",
                     key,
-          `          e
+                    e
                 )
             })?;
             let config = value.try_into_config(&pubkey)?;
@@ -56,9 +56,7 @@ impl Manifest {
         for (feature, config) in &manifest.features {
             for dep in &config.depends_on {
                 if !manifest.features.contains_key(dep) {
-                    warn!(
-                        "feature {feature} declares a dependency on unknown feature {dep}"
-                    );
+                    warn!("feature {feature} declares a dependency on unknown feature {dep}");
                 }
             }
             if let Some(deprecated_by) = &config.deprecated_by {
@@ -88,9 +86,7 @@ impl Manifest {
     /// Look up a feature by SIMD number. Returns the first match (the YAML
     /// loader does not enforce uniqueness on `simd_number`).
     pub fn find_by_simd_number(&self, n: u32) -> Option<(&Pubkey, &FeatureConfig)> {
-        self.features
-            .iter()
-            .find(|(_, c)| c.simd_number == Some(n))
+        self.features.iter().find(|(_, c)| c.simd_number == Some(n))
     }
 
     /// Resolve a feature-gate label that is either a base58 pubkey or a
@@ -431,7 +427,10 @@ features:
             .expect("zk feature present");
         assert_eq!(zk.simd_number, Some(153));
         assert_eq!(zk.simd_url.as_deref(), Some("https://example/0153.md"));
-        assert_eq!(zk.activation.devnet.as_ref().and_then(|c| c.epoch), Some(801));
+        assert_eq!(
+            zk.activation.devnet.as_ref().and_then(|c| c.epoch),
+            Some(801)
+        );
         let rent = m
             .get(&Pubkey::from_str(RENT_FEATURE).unwrap())
             .expect("rent feature present");
@@ -450,7 +449,10 @@ features:
         )
         .expect_err("invalid key should error");
         let msg = format!("{err}");
-        assert!(msg.contains("not-a-pubkey"), "error names offending key: {msg}");
+        assert!(
+            msg.contains("not-a-pubkey"),
+            "error names offending key: {msg}"
+        );
     }
 
     #[test]
@@ -526,7 +528,9 @@ features:
         address: GQfx3D8zDArQVtaRXqiJiSVe8mG2dKNGeiKBWr9YKPS5
 "#
         ));
-        let config = m.get(&Pubkey::from_str(ZK_ELGAMAL_FEATURE).unwrap()).unwrap();
+        let config = m
+            .get(&Pubkey::from_str(ZK_ELGAMAL_FEATURE).unwrap())
+            .unwrap();
         assert_eq!(
             config
                 .test_deployment_for("testnet")

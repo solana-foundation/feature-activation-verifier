@@ -12,4 +12,4 @@ run *ARGS: build-programs
     cargo run -p cli -- {{ARGS}}
 
 debug *ARGS: build-programs
-    RUST_LOG=simd_checker=debug cargo run -p cli -- {{ARGS}}
+    RUST_LOG=feature_activation_checker=debug cargo run -p cli -- {{ARGS}}

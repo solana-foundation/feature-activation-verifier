@@ -1,2 +1,2 @@
 [alias]
-simd-checker-install = "install --path crates/cli --locked --force"
+feature-activation-verifier-install = "install --path crates/cli --locked --force"
